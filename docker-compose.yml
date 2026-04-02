@@ -6,7 +6,7 @@ services:
     build: .
     container_name: face-recognition-app
     ports:
-      - "8888:8888"
+      - "9923:9923"
     environment:
       - NODE_ENV=production
       - DATABASE_URL=${DATABASE_URL}

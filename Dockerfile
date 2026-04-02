@@ -45,7 +45,7 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app ./
 
 # Expose port API
-EXPOSE 9000
+EXPOSE 9923
 
 # Jalankan menggunakan PM2 ecosystem config
 CMD ["pm2-runtime", "ecosystem.config.cjs"]
