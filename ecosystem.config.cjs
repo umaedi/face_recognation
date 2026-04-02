@@ -2,10 +2,11 @@ module.exports = {
   apps: [
     {
       name: 'face-api',
-      script: 'npm',
-      args: 'start',
-      exec_mode: 'fork', // API sebaiknya fork jika port tunggal
-      instances: 1,      // Bisa ditingkatkan ke 'max' jika menggunakan load balancer eksternal
+      script: 'src/index.ts',
+      interpreter: 'node',
+      interpreter_args: '--import tsx', // Menggunakan tsx untuk menjalankan TypeScript langsung
+      exec_mode: 'fork',
+      instances: 1,
       autorestart: true,
       watch: false,
       max_memory_restart: '1G',
@@ -15,12 +16,13 @@ module.exports = {
     },
     {
       name: 'face-worker',
-      script: 'npm',
-      args: 'run worker',
-      instances: 1,      // Kita sudah menggunakan concurrency 20 di dalam kode
+      script: 'src/worker.ts',
+      interpreter: 'node',
+      interpreter_args: '--import tsx',
+      instances: 1,
       autorestart: true,
       watch: false,
-      max_memory_restart: '2G', // AI memakan banyak RAM
+      max_memory_restart: '2G',
       env: {
         NODE_ENV: 'production',
       },

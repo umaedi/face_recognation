@@ -28,7 +28,7 @@ FROM node:20-bullseye-slim
 
 WORKDIR /app
 
-# Instal pustaka sistem RUNTIME saja (tidak perlu build-essential)
+# Instal pustaka sistem RUNTIME saja
 RUN apt-get update && apt-get install -y \
     libcairo2 \
     libpango-1.0-0 \
@@ -37,15 +37,15 @@ RUN apt-get update && apt-get install -y \
     librsvg2-2 \
     && rm -rf /var/lib/apt/lists/*
 
-# Instal PM2 secara global
-RUN npm install -g pm2
+# Instal PM2 dan TSX secara global
+RUN npm install -g pm2 tsx
 
-# Salin hanyak node_modules dan file yang dibutuhkan dari builder
+# Salin hanya node_modules dan file yang dibutuhkan dari builder
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app ./
 
-# Expose port API
+# Expose port API (sesuai konfigurasi terakhir Anda 9923)
 EXPOSE 9923
 
-# Jalankan menggunakan PM2 ecosystem config
-CMD ["pm2-runtime", "ecosystem.config.cjs"]
+# Jalankan menggunakan PM2
+CMD ["pm2-runtime", "start", "ecosystem.config.cjs"]
