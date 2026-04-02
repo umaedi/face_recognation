@@ -1,4 +1,4 @@
-import '@tensorflow/tfjs-node';
+import '@tensorflow/tfjs';
 import * as faceapi from '@vladmandic/face-api';
 import { Canvas, Image, ImageData, loadImage } from 'canvas';
 import path from 'path';
