@@ -2,8 +2,8 @@ module.exports = {
   apps: [
     {
       name: 'face-api',
-      script: 'npm',
-      args: 'start',
+      script: 'node',
+      args: '--import tsx src/index.ts',
       exec_mode: 'fork',
       instances: 1,
       autorestart: true,
@@ -15,8 +15,8 @@ module.exports = {
     },
     {
       name: 'face-worker',
-      script: 'npm',
-      args: 'run worker',
+      script: 'node',
+      args: '--import tsx src/worker.ts',
       instances: 1,
       autorestart: true,
       watch: false,
