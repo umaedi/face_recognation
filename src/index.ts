@@ -20,8 +20,8 @@ app.route('/api/face', faceRoutes);
 // --- Server Lifecycle ---
 const port = parseInt(process.env.PORT || '8888');
 
-const server = serve({ fetch: app.fetch, port, hostname: '0.0.0.0' }, (info) => {
-  console.log(`🚀 Face Recognition Service running on http://0.0.0.0:${info.port}`);
+const server = serve({ fetch: app.fetch, port }, (info) => {
+  console.log(`🚀 Face Recognition Service running on http://localhost:${info.port}`);
 });
 
 // Handle graceful shutdown

@@ -1,5 +1,5 @@
-import * as tf from '@tensorflow/tfjs';
-import * as faceapi from '@vladmandic/face-api/dist/face-api.js';
+import '@tensorflow/tfjs-node';
+import * as faceapi from '@vladmandic/face-api';
 import { Canvas, Image, ImageData, loadImage } from 'canvas';
 import path from 'path';
 import { db } from '../db/index';
@@ -12,7 +12,7 @@ if (!(util as any).isNullOrUndefined) {
   (util as any).isNullOrUndefined = (value: any) => value === null || value === undefined;
 }
 
-// Konfigurasi Canvas untuk lingkungan Node.js
+// Konfigurasi Canvas untuk lingkungan Node.js agar Face-API dapat berjalan
 // @ts-ignore
 faceapi.env.monkeyPatch({ Canvas, Image, ImageData });
 
@@ -20,15 +20,10 @@ export class FaceService {
   private static isModelLoaded = false;
 
   /**
-   * Memuat model AI dari folder lokal
+   * Memuat model AI dari folder lokal (SSD MobileNet V1, Face Landmark, Face Recognition)
    */
   static async loadModels() {
     if (this.isModelLoaded) return;
-    
-    // Pastikan menggunakan backend CPU untuk stabilitas Docker
-    await tf.setBackend('cpu');
-    await tf.ready();
-
     const modelPath = path.join(process.cwd(), 'models');
     await faceapi.nets.ssdMobilenetv1.loadFromDisk(modelPath);
     await faceapi.nets.faceLandmark68Net.loadFromDisk(modelPath);
