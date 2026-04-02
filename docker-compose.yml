@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  # Container Utama (API + Worker via PM2)
+  face-app:
+    build: .
+    container_name: face-recognition-app
+    ports:
+      - "8888:8888"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=${REDIS_URL}
+      - WEBHOOK_URL=${WEBHOOK_URL}
+    volumes:
+      - ./models:/app/models # Mount folder model agar hemat bandwidth
+    networks:
+      - default
+      - proxy
+
+networks:
+  proxy:
+    external: true
+
+
